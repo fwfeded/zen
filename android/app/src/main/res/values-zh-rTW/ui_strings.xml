@@ -159,7 +159,6 @@
     <string name="ui_217cfe7db1e3">"跟隨系統"</string>
     <string name="ui_9937e365aaf3">"简体中文"</string>
     <string name="ui_1c95ab9b144e">"繁體中文"</string>
-    <string name="ui_3256feb7deb5">"暫未支持的系統語言使用英文。詩詞原句和自定義內容保留原文。"</string>
     <string name="ui_14ce0b312312">"通知已開啟"</string>
     <string name="ui_1df1e3cfc9af">"通知未開啟，仍可使用前臺提示。"</string>
     <string name="ui_79a0539d480d">"未允許定位。可稍后開啟，其他功能仍可使用。"</string>

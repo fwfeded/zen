@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="home_icon_size">Icon size</string>
+    <string name="home_icon_small">Small</string>
+    <string name="home_icon_medium">Medium</string>
+    <string name="home_icon_large">Large</string>
+    <string name="quote_language_help">Built-in quotes follow the selected language. Edits are saved separately for each language. Imported cards keep their original text. Unsupported system languages use English.</string>
+</resources>

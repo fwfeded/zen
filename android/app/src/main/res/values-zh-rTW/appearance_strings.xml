@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="home_icon_size">圖示大小</string>
+    <string name="home_icon_small">小</string>
+    <string name="home_icon_medium">中</string>
+    <string name="home_icon_large">大</string>
+    <string name="quote_language_help">內建文案隨語言切換，編輯按語言分別儲存。主題卡原文不變。不支援的系統語言使用英文。</string>
+</resources>

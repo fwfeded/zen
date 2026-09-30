@@ -156,7 +156,7 @@ val ZenSerif=FontFamily(Font(R.font.zen_serif))
     val date=Instant.ofEpochMilli(now).atZone(ZoneId.systemDefault());val t=s.timer
     val progress=if(t.status=="idle")0f else 1f-t.remainingMs.toFloat()/t.durationMs
     val weather=if(WeatherRules.usable(s.weather,now))WeatherRules.category(s.weather.code,s.weather.wind)else"unknown"
-    val key="${s.settings.theme}/${if(dark)"night" else "day"}/$weather/${s.settings.category}"
+    val key=quoteScope(s.settings.theme,if(dark)"night" else "day",weather,s.settings.category)
     val rows=rememberLibraryRows(a,s,s.settings.theme,if(dark)"night"else"day",weather,s.settings.category,date.monthValue)
     val pool=rows.map{it.text}
     val copy=pool.getOrNull(ThemeQuotes.index(s.copyIndices[key]?:0,pool.size)).orEmpty()
@@ -168,7 +168,7 @@ val ZenSerif=FontFamily(Font(R.font.zen_serif))
         // Reserve enough space for the entire focus block before distributing the two weights.
         // Short screens scroll; buttons must never be measured into a clipped sliver.
         val bottomGap=if(!s.settings.collapseHomeApps&&s.settings.theme !in paintedThemes)44.dp else 0.dp
-        val dockHeight=if(s.settings.collapseHomeApps)128.dp else 80.dp
+        val dockHeight=homeAppsSlotHeight(s.settings,density.fontScale).dp+if(s.settings.collapseHomeApps)48.dp else 0.dp
         val height=maxOf(maxHeight.value,if(density.fontScale>1.1f)880f else 740f).dp-dockHeight-bottomGap
         Column(Modifier.fillMaxSize(),horizontalAlignment=Alignment.CenterHorizontally) {
         Column(Modifier.fillMaxWidth().weight(1f).verticalScroll(rememberScrollState()),horizontalAlignment=Alignment.CenterHorizontally) {
@@ -196,7 +196,7 @@ val ZenSerif=FontFamily(Font(R.font.zen_serif))
                     if(t.taskTitle.isNotBlank()&&t.status!="idle")Text(t.taskTitle,fontFamily=ZenSerif,fontSize=17.sp,lineHeight=26.sp,textAlign=TextAlign.Center,color=p.ink,modifier=Modifier.padding(vertical=8.dp).testTag("focus-task"))
                     else Box(Modifier.widthIn(max=300.dp).fillMaxWidth().heightIn(min=66.dp).combinedClickable(onClickLabel=tr(R.string.ui_933eeb893dc0, "换一句"),onLongClickLabel=tr(R.string.ui_dc495413b964, "查看文案出处"),onLongClick={a.panel="copy-source"},onClick={
                         a.editState{it.copy(copyIndices=it.copyIndices+(key to ThemeQuotes.next(it.copyIndices[key]?:0,pool.size)))}})
-                        .padding(vertical=8.dp),contentAlignment=Alignment.Center){Text(copy,fontFamily=ZenSerif,fontSize=15.sp,lineHeight=28.sp,letterSpacing=.8.sp,textAlign=TextAlign.Center,color=p.ink)}
+                        .padding(vertical=8.dp),contentAlignment=Alignment.Center){Text(copy,fontFamily=ZenSerif,fontSize=15.sp,lineHeight=28.sp,letterSpacing=.8.sp,textAlign=TextAlign.Center,color=p.ink,modifier=Modifier.testTag("home-quote"))}
                     Spacer(Modifier.height(12.dp))
                     val seconds=if(t.status=="idle")s.settings.focusDurationSeconds.toLong() else (t.remainingMs+999)/1000
                     Column(Modifier.fillMaxWidth().testTag("focus-glyph")
@@ -221,17 +221,19 @@ val ZenSerif=FontFamily(Font(R.font.zen_serif))
 
 /** Fixed in the safe area; opening the apps never changes the space used by home content. */
 @Composable private fun HomeAppDock(a:MainActivity,s:AppState,p:Palette) {
-    val turn by animateFloatAsState(if(a.homeAppsExpanded)180f else 0f,
-        animationSpec=tween(if(s.settings.motion)180 else 0),label="dock-turn")
+    // Interaction feedback is independent of background motion. Compose still respects
+    // the system duration scale, including the accessibility option to remove animations.
+    val expansion by animateFloatAsState(if(a.homeAppsExpanded)1f else 0f,
+        animationSpec=tween(280),label="dock-turn")
     Column(Modifier.widthIn(max=480.dp).fillMaxWidth().padding(horizontal=28.dp),horizontalAlignment=Alignment.CenterHorizontally) {
-        Box(Modifier.fillMaxWidth().heightIn(min=80.dp).testTag("home-apps-slot"),contentAlignment=Alignment.Center) {
-            if(!s.settings.collapseHomeApps||a.homeAppsExpanded)PanelArrival("home-apps",s.settings.motion) {
+        Box(Modifier.fillMaxWidth().heightIn(min=homeAppsSlotHeight(s.settings,LocalDensity.current.fontScale).dp).testTag("home-apps-slot"),contentAlignment=Alignment.Center) {
+            if(!s.settings.collapseHomeApps||a.homeAppsExpanded)PanelArrival("home-apps",true) {
                 Row(Modifier.fillMaxWidth(),horizontalArrangement=Arrangement.Center,verticalAlignment=Alignment.CenterVertically) {
                     if(s.settings.favorites.isEmpty())TextButton(onClick={a.panel="favorites"}){Text(tr(R.string.ui_a95011c4231d,"＋ 添加首页应用"),fontSize=13.sp,color=p.muted)}
                     else s.settings.favorites.forEach{pkg->val entry=a.apps.find{it.pkg==pkg}
                         Column(Modifier.weight(1f).heightIn(min=72.dp).combinedClickable(onClick={if(entry!=null)a.openApp(entry)else{a.message=tr(R.string.ui_f9869b0403ce,"此应用已不可用，可从管理中移除。");a.panel="favorites"}},onLongClick={a.panel="favorites"}).padding(vertical=8.dp),horizontalAlignment=Alignment.CenterHorizontally){
-                            if(entry!=null)AppIcon(entry,Modifier.size(28.dp))else Text("○",fontSize=24.sp,color=p.muted)
-                            Spacer(Modifier.height(10.dp));Text(entry?.name?:tr(R.string.ui_8cc1f144517d,"已不可用"),fontSize=11.sp,textAlign=TextAlign.Center,color=p.ink,maxLines=2,overflow=TextOverflow.Ellipsis)
+                            if(entry!=null)AppIcon(entry,Modifier.size(homeIconSize(s.settings).dp).testTag("home-app-icon"))else Text("○",fontSize=homeIconSize(s.settings).sp,color=p.muted)
+                            Spacer(Modifier.height(10.dp));Text(entry?.name?:tr(R.string.ui_8cc1f144517d,"已不可用"),fontSize=11.sp,lineHeight=16.sp,textAlign=TextAlign.Center,color=p.ink,maxLines=2,overflow=TextOverflow.Ellipsis)
                         }
                     }
                 }
@@ -241,13 +243,15 @@ val ZenSerif=FontFamily(Font(R.font.zen_serif))
             contentDescription=if(a.homeAppsExpanded)tr(R.string.ui_6d92d91777ed,"收起应用")else tr(R.string.dock_expand,"展开应用")
             stateDescription=if(a.homeAppsExpanded)tr(R.string.ui_df647b73b990,"已展开")else tr(R.string.ui_ee60469308d3,"已折叠")
         }){
-            Canvas(Modifier.size(18.dp).graphicsLayer{rotationZ=turn}.testTag("home-apps-dots")){
-                val step=3.dp.toPx()
+            Canvas(Modifier.size(22.dp).graphicsLayer{rotationZ=expansion*45f}.testTag("home-apps-dots")){
+                val step=(3f+expansion*1.4f).dp.toPx()
                 for(x in listOf(-1,1))for(y in listOf(-1,1))drawCircle(p.muted,1.3.dp.toPx(),center+Offset(x*step,y*step),style=Stroke(1.dp.toPx()))
             }
         }
     }
 }
+internal fun homeIconSize(settings:Settings)=settings.homeIconDp.coerceIn(28,44)
+internal fun homeAppsSlotHeight(settings:Settings,fontScale:Float=1f)=homeIconSize(settings)+26+32*fontScale.coerceAtLeast(1f)
 /** One semantic family; softness follows the scene without changing recognition. */
 @Composable fun LineIcon(kind:String,color:Color,theme:String="water") { Canvas(Modifier.size(22.dp)) {
     val unit=size.width/24f;val stroke=1.35.dp.toPx()
@@ -274,4 +278,8 @@ val ZenSerif=FontFamily(Font(R.font.zen_serif))
         else->repeat(3){drawCircle(color,1.1.dp.toPx(),Offset((5+it*7)*unit,12*unit))}
     }
 } }
-@Composable fun AppIcon(entry:AppEntry,modifier:Modifier=Modifier){val bitmap=remember(entry.pkg,entry.icon){entry.icon.toBitmap(72,72).asImageBitmap()};Image(bitmap,contentDescription=null,modifier=modifier)}
+@Composable fun AppIcon(entry:AppEntry,modifier:Modifier=Modifier){
+    val pixels=with(LocalDensity.current){44.dp.roundToPx()}.coerceIn(72,192)
+    val bitmap=remember(entry.pkg,entry.icon,pixels){entry.icon.toBitmap(pixels,pixels).asImageBitmap()}
+    Image(bitmap,contentDescription=null,modifier=modifier)
+}

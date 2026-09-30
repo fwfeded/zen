@@ -159,7 +159,6 @@
     <string name="ui_217cfe7db1e3">"Follow system"</string>
     <string name="ui_9937e365aaf3">"简体中文"</string>
     <string name="ui_1c95ab9b144e">"繁體中文"</string>
-    <string name="ui_3256feb7deb5">"Unsupported system languages use English. Quotes and your own content stay in their original language."</string>
     <string name="ui_14ce0b312312">"Notifications enabled"</string>
     <string name="ui_1df1e3cfc9af">"Notifications are off. In-app alerts are still available."</string>
     <string name="ui_79a0539d480d">"Location not allowed. You can enable it later; other features still work."</string>

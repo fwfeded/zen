@@ -79,7 +79,7 @@ The interface supports Simplified Chinese, Traditional Chinese and English, with
 
 ## Install, try and return
 
-1. Download `zen-30.apk` for version 0.5.5, about 22.1 MiB, from [Releases](https://github.com/fwfeded/zen/releases/latest).
+1. Download `zen-31.apk` for version 0.5.6, about 22.2 MiB, from [Releases](https://github.com/fwfeded/zen/releases/latest).
 2. Follow Android's installation prompts. Open Zen as a regular app first; becoming the default launcher is optional.
 3. If desired, use Zen's home/exit settings to enable it as the default home app. To return, use the action that names your previous launcher on the same page.
 
@@ -101,7 +101,7 @@ Downloads are checked for package identity, increasing version, size, SHA-256 an
 
 Tasks, goals, focus records, quotations and preferences stay on the device. There is no account, cloud sync, advertising SDK or analytics SDK. Weather requests send location coordinates to Open-Meteo; update requests contact GitHub. Android's geocoder may contact its configured provider to resolve city names.
 
-Version 0.5.5 passed 154 unit tests, 13 emulator update tests and nine release-tool tests. An Android 15 emulator also completed a real GitHub download and system upgrade from 0.5.4 to 0.5.5, preserving tasks, focus totals and settings. Physical devices still require verification; this remains a personal test release.
+Version 0.5.6 passed 157 unit tests, 15 device regression tests, three large-font checks and two checks with system animations disabled. An Android 15 emulator completed an in-place upgrade from 0.5.5 to 0.5.6, preserving tasks, focus totals, settings, quotation edits and language. Physical devices still require verification; this remains a personal test release. [Verification record](docs/RELEASE_0.5.6.md).
 
 Weather can differ from the manufacturer's app. Split-screen usage attribution is not guaranteed. Reminder delivery depends on Android permissions and system settings. Battery-saving options reduce some of Zen's work, but no device-wide battery-life improvement has been demonstrated. Uninstalling or clearing data removes local records; full export/restore is not available yet. GitHub downloads depend on network availability.
 

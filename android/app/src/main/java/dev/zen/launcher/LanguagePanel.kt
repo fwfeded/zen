@@ -18,6 +18,6 @@ import androidx.compose.ui.unit.sp
                 RadioButton(selected=UiLanguage.selected(a)==tag,onClick=null)
             }
         }
-        Text(tr(R.string.ui_3256feb7deb5, "暂未支持的系统语言使用英文。诗词原句和自定义内容保留原文。"),fontSize=12.sp,color=MaterialTheme.colorScheme.secondary)
+        HelpButton(tr(R.string.ui_127527c89c51,"语言 / Language"),tr(R.string.quote_language_help,"内置文案随语言切换，编辑按语言分别保存。主题卡原文不变。不支持的系统语言使用英文。"),compact=false)
     }
 }

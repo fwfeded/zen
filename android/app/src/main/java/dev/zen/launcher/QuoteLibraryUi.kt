@@ -40,7 +40,7 @@ private val quoteCategories get()=listOf("scene" to tr(R.string.ui_0f70eef46ff0,
     var draft by rememberSaveable{mutableStateOf("")}
     var original by rememberSaveable{mutableStateOf("")}
     var discard by remember{mutableStateOf(false)}
-    val scope="$theme/$phase/$weather/$category"
+    val scope=quoteScope(theme,phase,weather,category)
     val seasonal=remember(theme,s.themeCards){theme in listOf("cloud","river")||s.themeCards.find{it.id==theme}?.card?.quotes?.any{it.months.isNotEmpty()}==true}
     val rows=rememberLibraryRows(a,s,theme,phase,weather,category,month,includeDeleted=true)
     val visible=remember(rows,deleted){rows.filter{it.deleted==deleted}}

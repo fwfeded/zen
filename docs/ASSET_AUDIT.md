@@ -1,11 +1,11 @@
 # 素材来源与发布审查
 
-审查对象：本次公开的 0.5.5 源码目录。此文件记录来源与范围，不是独立律师出具的权利保证。
+审查对象：0.5.5 首次公开及 0.5.6 更新的源码目录。此文件记录来源与范围，不是独立律师出具的权利保证。
 
 | 类别 | 发布内容与来源 | 授权处理 |
 | --- | --- | --- |
 | 六个内置主题 | `assets/scenes/*.svg`、`motifs.json`，项目开发过程中创建的程序化场景与图形 | 随项目采用 GPL-3.0-only；SVG/JSON 可直接编辑 |
-| 原创短句 | `assets/copy.json`；检查键仅有 water、forest、dawn、dusk、paper、night | 随项目采用 GPL-3.0-only，不将其标为动漫原台词 |
+| 原创短句 | `assets/copy.json`、`copy-zh-TW.json`、`copy-en.json`；检查键仅有 water、forest、dawn、dusk、paper、night | 随项目采用 GPL-3.0-only，不将其标为动漫原台词 |
 | 传统诗词 | `ThemeQuotes.kt`、`PoetryLibrary.kt` 中保留的古代诗句与作者／篇名／来源链接 | 古代原文不主张新增版权；不包含现代译文或现代注释 |
 | 中文字体 | Noto Serif CJK SC Regular 2.003，Adobe 2017–2024 | 原文件未修改，独立遵守 SIL OFL 1.1 |
 | 项目截图 | README 与主题页的六张实际应用截图，使用示例天气 | 不含私人通知、联系人或真实待办；字体仍依原许可 |
@@ -20,6 +20,10 @@
 - Git blob SHA-1：`cba8a4783cc38574ac7cda52cae7d9b4241c07a5`。
 - SHA-256：`2a2eae2628df83556c54018c41e20fa532c1b862c5256ae8b3f23feb918d12ca`。
 - 完整上游许可：[Noto-Serif-CJK-OFL.txt](../licenses/Noto-Serif-CJK-OFL.txt)。嵌入应用的字体许可文本也保留。
+
+## 0.5.6 文案补充
+
+英文库为项目原创英文短句，共 230 条；繁体库由简体文案使用 OpenCC 进行简繁转换，共 693 条。两套库均按主题、昼夜、天气和分类存储，随项目 GPL-3.0-only 发布。转换工具仅在开发阶段使用，不作为 APK 运行依赖，也不连接在线翻译服务。用户输入和导入主题卡不会被自动翻译。
 
 ## 未发布的内容
 

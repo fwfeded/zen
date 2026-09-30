@@ -14,6 +14,7 @@ import java.util.UUID
     val focusSeconds:Int? = null, val restSeconds:Int? = null, val snoozeSeconds:Int? = null,
     val quietFocus:Boolean=true, val quietHintSeen:Boolean=false,
     val collapseHomeApps:Boolean=false, val energySaving:Boolean=false,
+    val homeIconDp:Int=36,
     val todoOverlay:Boolean=false, val overlayPinnedId:String=""
 )
 @Serializable data class Goal(

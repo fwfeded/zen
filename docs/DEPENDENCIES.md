@@ -1,6 +1,6 @@
 # 运行时依赖授权清单
 
-从 0.5.5 的 `releaseRuntimeClasspath` 实际解析结果生成。每项许可证名称与链接读取自对应版本的 Maven POM；精确文件哈希见 [机器可读清单](DEPENDENCIES.json)。本清单不是独立法律意见或漏洞审计。
+0.5.6 未改变依赖版本，继续采用从 0.5.5 的 `releaseRuntimeClasspath` 实际解析结果生成。每项许可证名称与链接读取自对应版本的 Maven POM；精确文件哈希见 [机器可读清单](DEPENDENCIES.json)。本清单不是独立法律意见或漏洞审计。
 
 | 依赖 | 版本 | 上游声明许可 |
 | --- | --- | --- |

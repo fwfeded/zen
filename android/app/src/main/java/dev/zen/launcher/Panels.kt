@@ -117,7 +117,7 @@ import androidx.compose.ui.platform.testTag
         "copy-source"->PanelColumn(tr(R.string.ui_2ac1fb15aa49, "文案出处"),a){
             val weather=if(WeatherRules.usable(s.weather,now))WeatherRules.category(s.weather.code,s.weather.wind)else"unknown"
             val dark=isNight(s,now)
-            val key="${s.settings.theme}/${if(dark)"night" else "day"}/$weather/${s.settings.category}"
+            val key=quoteScope(s.settings.theme,if(dark)"night" else "day",weather,s.settings.category)
             val month=java.time.Instant.ofEpochMilli(now).atZone(java.time.ZoneId.systemDefault()).monthValue
             val pool=rememberLibraryRows(a,s,s.settings.theme,if(dark)"night"else"day",weather,s.settings.category,month)
             val quote=pool.getOrNull(ThemeQuotes.index(s.copyIndices[key]?:0,pool.size))
@@ -173,14 +173,27 @@ import androidx.compose.ui.platform.testTag
                 a.editState{it.copy(settings=it.settings.copy(collapseHomeApps=enabled))}
             },modifier=Modifier.testTag("collapse-apps-setting").semantics{contentDescription=tr(R.string.ui_6e953c2f1169,"默认折叠应用栏")})
         }
+        if(favorites)Column {
+            Text(tr(R.string.home_icon_size,"图标大小"),fontSize=13.sp)
+            Row(Modifier.fillMaxWidth(),horizontalArrangement=Arrangement.spacedBy(8.dp)){
+                listOf(28 to tr(R.string.home_icon_small,"小"),36 to tr(R.string.home_icon_medium,"中"),44 to tr(R.string.home_icon_large,"大")).forEach{(size,label)->
+                    FilterChip(selected=homeIconSize(s.settings)==size,onClick={a.editState{it.copy(settings=it.settings.copy(homeIconDp=size))}},label={Text(label)},modifier=Modifier.weight(1f).testTag("app-size-$size"))
+                }
+            }
+            Row(Modifier.fillMaxWidth().height(56.dp),horizontalArrangement=Arrangement.SpaceEvenly,verticalAlignment=Alignment.CenterVertically){
+                s.settings.favorites.mapNotNull{pkg->a.apps.find{it.pkg==pkg}}.forEach{AppIcon(it,Modifier.size(homeIconSize(s.settings).dp))}
+            }
+        }
         HelpButton(if(favorites)tr(R.string.ui_02f0668b446f,"首页应用")else tr(R.string.ui_641d22a588c0,"提醒应用"),if(favorites)tr(R.string.ui_9ab59eb32fbd,"保留最多四个入口，其他应用仍可通过查找打开。")else tr(R.string.ui_dc8f5a18c088,"打开所选应用时先设置使用目标。只累计实际使用时间，与专注计时分开计算。"),compact=false)
-        if(favorites)s.settings.favorites.forEachIndexed{index,pkg->Row(Modifier.fillMaxWidth(),verticalAlignment=Alignment.CenterVertically){
+        OutlinedTextField(query,{query=it},Modifier.fillMaxWidth(),label={Text(tr(R.string.ui_a49136ee37c6, "搜索已安装应用"))},singleLine=true)
+        }){
+        if(favorites)item{Column{
+        s.settings.favorites.forEachIndexed{index,pkg->Row(Modifier.fillMaxWidth(),verticalAlignment=Alignment.CenterVertically){
             Text(a.apps.find{it.pkg==pkg}?.name?:tr(R.string.ui_8cc1f144517d, "已不可用"),Modifier.weight(1f))
             TextButton(onClick={a.editState{state->val list=state.settings.favorites.toMutableList();if(index>0)java.util.Collections.swap(list,index,index-1);state.copy(settings=state.settings.copy(favorites=list))}},enabled=index>0){Text(tr(R.string.ui_f853a70b1204, "上移"))}
             TextButton(onClick={a.editState{it.copy(settings=it.settings.copy(favorites=it.settings.favorites-pkg))}}){Text(tr(R.string.ui_6135d4159e89, "移除"))}
         }}
-        OutlinedTextField(query,{query=it},Modifier.fillMaxWidth(),label={Text(tr(R.string.ui_a49136ee37c6, "搜索已安装应用"))},singleLine=true)
-        }){
+        }}
         items(a.apps.filter{it.name.contains(query.trim(),true)&&(!favorites||it.pkg !in s.settings.favorites)},key={it.pkg}){entry->
             val checked=if(favorites)entry.pkg in s.settings.favorites else entry.pkg in s.settings.reminderPackages
             Row(Modifier.fillMaxWidth().heightIn(min=56.dp).testTag("app-choice-${entry.pkg}"),verticalAlignment=Alignment.CenterVertically){

@@ -1,0 +1,24 @@
+Zen / 禅
+Copyright (C) 2026 fwfeded and contributors
+
+Except for material identified below or in THIRD_PARTY_NOTICES.md,
+the project source, project-authored resources and documentation are
+licensed under the GNU General Public License, version 3 only
+(SPDX-License-Identifier: GPL-3.0-only). See LICENSE for the full terms.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+Third-party exceptions:
+- Noto Serif CJK SC Regular 2.003, copyright 2017-2024 Adobe:
+  SIL Open Font License 1.1, not relicensed under the GPL.
+- Gradle Wrapper scripts and JAR: Apache License 2.0; retain their
+  upstream notices. Gradle distribution notices are in licenses/.
+- Downloaded runtime dependencies retain their upstream licenses;
+  see docs/DEPENDENCIES.md and docs/DEPENDENCIES.json.
+- Historical Chinese poems remain public-domain original texts;
+  citations do not grant rights over modern editions or translations.
+- Third-party license documents retain their own terms.
+
+No external theme cards, their artwork, or private user data are distributed.

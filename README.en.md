@@ -28,7 +28,7 @@ Picking up a phone often begins with a specific intention: answer a message, fin
 
 Zen changes what appears first. Keep a few necessary tools nearby, search deliberately for other apps, and open secondary features only when needed. You can use it as a regular app or make it your default launcher.
 
-This is a personal, non-commercial project, shaped by everyday use and feedback. Application source publication is still being prepared. [Read the developer notes in Chinese](DEVELOPER_NOTES.md).
+This is a personal, non-commercial project, shaped by everyday use and feedback. Application source is now available under GPL-3.0-only. [Read the developer notes in Chinese](DEVELOPER_NOTES.md).
 
 ## A day with Zen
 
@@ -83,7 +83,7 @@ The interface supports Simplified Chinese, Traditional Chinese and English, with
 2. Follow Android's installation prompts. Open Zen as a regular app first; becoming the default launcher is optional.
 3. If desired, use Zen's home/exit settings to enable it as the default home app. To return, use the action that names your previous launcher on the same page.
 
-The automatically generated **Source code** archives contain repository documents and are not installable. Existing installations with the same signature can be updated in place; uninstalling first removes local data.
+Source archives are not installable APKs. Use the current repository for the complete source and follow [BUILDING.md](BUILDING.md). The historical v0.5.5 tag predates source publication. Existing installations with the same signature can be updated in place; uninstalling first removes local data.
 
 ## Updates
 
@@ -118,4 +118,4 @@ Detailed guides are currently in Chinese. English issue reports are welcome.
 | Permissions and local data | [Permissions](docs/PERMISSIONS.md) · [Privacy](PRIVACY.md) |
 | Future work and feedback | [Roadmap](ROADMAP.md) · [Contributing](CONTRIBUTING.md) · [Security](SECURITY.md) |
 
-**This repository currently provides APK releases, documentation and issue tracking. Application source is not yet public, and no project-wide open-source license has been selected.** You can contribute feedback and documentation; building the app from this repository is not possible yet. [Project status](PROJECT_STATUS.md) · [Third-party notices](THIRD_PARTY_NOTICES.md) · [Changelog](CHANGELOG.md).
+**Application source is now public under GPL-3.0-only.** Commercial use is permitted; distributing covered modifications requires compliance with GPL source and notice obligations. Third-party assets retain their own licenses. [Source](android/) · [Build guide](BUILDING.md) · [License](LICENSE) · [Dependency audit](docs/DEPENDENCIES.md). [Project status](PROJECT_STATUS.md) · [Third-party notices](THIRD_PARTY_NOTICES.md) · [Changelog](CHANGELOG.md).

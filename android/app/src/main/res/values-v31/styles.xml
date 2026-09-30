@@ -1,0 +1,4 @@
+<resources><style name="AppTheme" parent="AppBase">
+    <item name="android:windowSplashScreenBackground">#E6EFF1</item>
+    <item name="android:windowSplashScreenAnimatedIcon">@drawable/ic_zen</item>
+</style></resources>

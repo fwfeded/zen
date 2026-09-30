@@ -34,7 +34,7 @@ Android 10+ &nbsp; / &nbsp; 无需账号 &nbsp; / &nbsp; 个人测试版
 
 禅从这个日常困扰出发，重新安排桌面上“什么先出现、什么在需要时出现”。少量必要应用留在手边，其他应用由你主动搜索；专注、待办、统计和设置收在清晰的入口里。手机依然能做原来的事，而打开手机之后的下一步，希望更多由你来选择。
 
-这是一个自用、非商业的个人项目。它的设计依据来自反复使用和调整：减少一次多余操作，删掉一段不必要的说明，让功能之间衔接得自然一点。源码整理和开源准备仍在进行。[阅读完整的开发者碎碎念 →](DEVELOPER_NOTES.md)
+这是一个自用、非商业的个人项目。它的设计依据来自反复使用和调整：减少一次多余操作，删掉一段不必要的说明，让功能之间衔接得自然一点。应用源码现已采用 GPL-3.0-only 公开，可按构建指南自行编译。[阅读完整的开发者碎碎念 →](DEVELOPER_NOTES.md)
 
 ## 禅怎样融入一天
 
@@ -99,7 +99,7 @@ Android 10+ &nbsp; / &nbsp; 无需账号 &nbsp; / &nbsp; 个人测试版
 
 **系统要求：Android 10 及以上。当前公开版本：0.5.5（约 22.1 MiB）。**
 
-1. 从 [官方 Release](https://github.com/fwfeded/zen/releases/latest) 下载 `zen-30.apk`。GitHub 自动生成的 **Source code** 压缩包是仓库资料，不能安装。
+1. 从 [官方 Release](https://github.com/fwfeded/zen/releases/latest) 下载 `zen-30.apk`。源码压缩包不能直接安装；自行编译请从当前仓库获取源码，见 [构建指南](BUILDING.md)。
 2. 按 Android 提示安装，先以普通应用体验。已有同签名版本时可直接覆盖，避免先卸载而丢失本地记录。
 3. 想替换主桌面时，进入 **设置 → 桌面与退出 → 启用禅作为默认桌面**，由系统确认。
 
@@ -155,6 +155,8 @@ https://github.com/fwfeded/zen/releases/latest/download/latest.json
 
 欢迎在 [Issues](https://github.com/fwfeded/zen/issues/new/choose) 分享真实使用中的问题：哪个入口难找、哪一步多余、哪个场景仍会卡顿。附上手机型号、系统版本和复现步骤，会比一句“不能用”更容易帮助定位。涉及敏感数据或漏洞，请走 [私密安全反馈](SECURITY.md)。
 
-**当前仓库提供 APK、文档与问题跟踪；应用源码尚未公开，项目许可证尚未确定。** 源码与素材整理完成后再推进开源。本阶段可参与体验反馈与文档改进，尚不能从此仓库构建应用。[项目状态](PROJECT_STATUS.md) · [第三方说明](THIRD_PARTY_NOTICES.md) · [更新记录](CHANGELOG.md)
+**应用源码已公开，采用 GPL-3.0-only。** 欢迎学习、修改、编译和贡献代码；分发修改版需遵守许可证的相应源码与声明义务。允许商用，第三方资源保留原许可。
+
+[源码目录](android/) · [构建指南](BUILDING.md) · [代码结构](docs/ARCHITECTURE.md) · [许可证](LICENSE) · [依赖授权](docs/DEPENDENCIES.md) · [素材审查](docs/ASSET_AUDIT.md)[项目状态](PROJECT_STATUS.md) · [第三方说明](THIRD_PARTY_NOTICES.md) · [更新记录](CHANGELOG.md)
 
 <p align="center"><sub>愿每次拿起手机，都能更接近自己原本想做的事。</sub></p>

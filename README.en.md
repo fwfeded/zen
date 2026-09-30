@@ -14,9 +14,9 @@ Android 10+ &nbsp; / &nbsp; No account required &nbsp; / &nbsp; Personal test re
 </div>
 
 <p align="center">
-  <img src="docs/images/water.png" width="240" alt="Zen with a pale blue landscape and a focus timer" />
-  <img src="docs/images/forest.png" width="240" alt="Zen with a green landscape and a collapsed app dock" />
-  <img src="docs/images/night.png" width="240" alt="Zen with a dark blue night landscape" />
+  <img src="docs/images/water.png" width="30%" alt="Zen with a pale blue landscape and a focus timer" />
+  <img src="docs/images/forest.png" width="30%" alt="Zen with a green landscape and a collapsed app dock" />
+  <img src="docs/images/night.png" width="30%" alt="Zen with a dark blue night landscape" />
 </p>
 <p align="center"><sub>Actual 0.5.5 app screenshots with example weather. <a href="docs/THEMES.md">View all six themes →</a></sub></p>
 

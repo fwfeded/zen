@@ -16,9 +16,9 @@ Android 10+ &nbsp; / &nbsp; 无需账号 &nbsp; / &nbsp; 个人测试版
 </div>
 
 <p align="center">
-  <img src="docs/images/water.png" width="240" alt="水静：雾蓝山水、简洁时钟与水滴形专注入口" />
-  <img src="docs/images/forest.png" width="240" alt="松风：苔绿山景与收起的必要应用栏" />
-  <img src="docs/images/night.png" width="240" alt="夜泊：深蓝夜色、月亮与专注计时" />
+  <img src="docs/images/water.png" width="30%" alt="水静：雾蓝山水、简洁时钟与水滴形专注入口" />
+  <img src="docs/images/forest.png" width="30%" alt="松风：苔绿山景与收起的必要应用栏" />
+  <img src="docs/images/night.png" width="30%" alt="夜泊：深蓝夜色、月亮与专注计时" />
 </p>
 <p align="center"><sub>0.5.5 实际应用截图，天气为示例数据。<a href="docs/THEMES.md">查看全部六个内置主题 →</a></sub></p>
 

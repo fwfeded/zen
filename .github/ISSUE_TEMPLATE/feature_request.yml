@@ -1,0 +1,32 @@
+name: 改进建议 / Feature request
+description: 描述需要解决的使用困难，以及更简洁的操作方式
+title: "[建议] "
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: 现在遇到什么困难 / Problem
+      description: 请用一个具体使用场景说明，不必先给出实现方案。
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: 期望的操作流程 / Proposed flow
+      description: 从哪里进入、完成什么、在哪里结束？
+    validations:
+      required: true
+  - type: dropdown
+    id: visibility
+    attributes:
+      label: 入口如何保持简洁 / Visibility
+      options:
+        - 改善原有操作，不增加入口
+        - 放在设置或按需展开
+        - 需要在首页显示，请在补充信息解释
+        - 暂不确定
+  - type: textarea
+    id: context
+    attributes:
+      label: 补充信息 / Context
+      description: 可说明无障碍需求或设备差异。本阶段不提交主题卡与外部主题资源。

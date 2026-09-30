@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 使用指南与常见问题
+    url: https://github.com/fwfeded/zen/blob/main/docs/FAQ.md
+    about: 安装、退出原桌面、天气、计时和更新排查
+  - name: 安全问题 / Security
+    url: https://github.com/fwfeded/zen/security/advisories/new
+    about: 私密报告漏洞，不要在公开问题中暴露个人数据或利用细节

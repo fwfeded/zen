@@ -1,0 +1,51 @@
+name: 问题反馈 / Bug report
+description: 报告可以复现的功能、性能或兼容性问题
+title: "[问题] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        请先搜索已有问题。截图、录屏和日志请去除个人内容；不要提交完整设备备份、账号凭据或主题卡资源。
+        安全漏洞请通过仓库 Security → Report a vulnerability 私密反馈。
+  - type: input
+    id: version
+    attributes:
+      label: 禅版本 / App version
+      placeholder: "例如 0.5.5，在版本更新页查看"
+    validations:
+      required: true
+  - type: input
+    id: device
+    attributes:
+      label: 手机和系统 / Device and OS
+      placeholder: "例如 一加 Ace 3 Pro，Android 16，ColorOS 16.0.5；或 Android 15 模拟器"
+    validations:
+      required: true
+  - type: dropdown
+    id: home
+    attributes:
+      label: 是否作为默认桌面 / Default launcher
+      options:
+        - 是 / Yes
+        - 否 / No
+        - 不确定 / Unsure
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: 复现步骤 / Steps to reproduce
+      placeholder: "1. 打开…\n2. 点击…\n3. 出现…"
+    validations:
+      required: true
+  - type: textarea
+    id: result
+    attributes:
+      label: 预期、实际结果及频率 / Expected, actual and frequency
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: 相关权限与补充信息 / Permissions and context
+      description: 可提供脱敏截图、网络情况、字体大小、锁屏或后台条件。

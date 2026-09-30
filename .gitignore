@@ -1,0 +1,86 @@
+# Local build tools, IDEs, caches and dependencies
+.gradle/
+.kotlin/
+.idea/
+.vscode/
+*.iml
+**/build/
+**/out/
+**/output/
+node_modules/
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.DS_Store
+Thumbs.db
+
+# Machine configuration and credentials (retain reviewed example templates)
+local.properties
+*.local.properties
+.env
+.env.*
+!.env.example
+!.env.sample
+keystore.properties
+signing.properties
+secrets.properties
+credentials.json
+service-account*.json
+google-services.json
+*.jks
+*.keystore
+*.p12
+*.pfx
+*.key
+*.pem
+.ssh/
+
+# Installers, archives, user data and diagnostics belong outside the Git source tree
+*.apk
+*.aab
+*.apks
+*.hprof
+*.log
+*.tmp
+*.bak
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.7z
+*.db
+*.db-shm
+*.db-wal
+zen-state.json
+shared_prefs/
+test-results/
+playwright-report/
+coverage/
+.playwright-cli/
+.playwright-mcp/
+.codex/
+.planning/
+
+# Current distribution scope: local tests and smoke tooling are not uploaded.
+# Revisit deliberately when preparing the public source/testing workflow.
+**/src/test/
+**/src/androidTest/
+test_*.py
+*_test.py
+
+# Historical browser prototypes and local development/acceptance notes
+/zen*.html
+/zen*.css
+/zen*.js
+/docs/superpowers/
+/docs/验收记录.md
+/docs/开发进度.md
+
+# Keep the Gradle wrapper and application source/resources eligible for review.
+!**/gradle/wrapper/gradle-wrapper.jar
+
+# Imported/private theme cards are local data; publish only reviewed source templates.
+*.zentheme

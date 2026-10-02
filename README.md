@@ -97,9 +97,9 @@ Android 10+ &nbsp; / &nbsp; 无需账号 &nbsp; / &nbsp; 个人测试版
 
 ## 安装与更新
 
-**系统要求：Android 10 及以上。当前公开版本：0.5.6（约 22.2 MiB）。**
+**系统要求：Android 10 及以上。当前公开版本：0.5.7（约 22.2 MiB）。**
 
-1. 从 [官方 Release](https://github.com/fwfeded/zen/releases/latest) 下载 `zen-31.apk`。源码压缩包不能直接安装；自行编译请从当前仓库获取源码，见 [构建指南](BUILDING.md)。
+1. 从 [官方 Release](https://github.com/fwfeded/zen/releases/latest) 下载 `zen-32.apk`。源码压缩包不能直接安装；自行编译请从当前仓库获取源码，见 [构建指南](BUILDING.md)。
 2. 按 Android 提示安装，先以普通应用体验。已有同签名版本时可直接覆盖，避免先卸载而丢失本地记录。
 3. 想替换主桌面时，进入 **设置 → 桌面与退出 → 启用禅作为默认桌面**，由系统确认。
 
@@ -124,7 +124,7 @@ https://github.com/fwfeded/zen/releases/latest/download/latest.json
 
 待办、目标、专注记录、设置与自定义文案保存在本机。应用无需账号，没有云同步、广告 SDK 或分析 SDK。天气请求会向天气服务发送查询位置，更新请求会访问 GitHub；联网范围见 [隐私说明](PRIVACY.md)。
 
-0.5.6 已通过 **157 项单元测试、15 项设备回归、3 项大字体测试与 2 项关闭动画测试**；Android 15 模拟器中 **0.5.5 → 0.5.6** 覆盖升级保留待办、累计时长、设置和文案编辑。测试通过不等于所有机型已验收，一加／ColorOS 等真机仍需继续验证。[本版验证记录](docs/RELEASE_0.5.6.md)。
+0.5.7 已通过 **165 项单元测试、10 项设备测试**；Android 15 模拟器中 **0.5.6 → 0.5.7** 覆盖升级保留设置、待办、统计、自定义文案及语言，最终 APK 前台实际到点通知通过。红米上的声音和振动仍待复测。[本版验证记录](docs/RELEASE_0.5.7.md)。
 
 <details>
 <summary>使用前值得了解的当前限制</summary>

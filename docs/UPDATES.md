@@ -18,11 +18,11 @@ https://github.com/fwfeded/zen/releases/latest/download/latest.json
 
 | 文件 | 用途 |
 | --- | --- |
-| `zen-31.apk` | 0.5.5（versionCode 30）的安装包 |
+| `zen-32.apk` | 0.5.7（versionCode 32）的安装包 |
 | `latest.json` | 应用读取的版本、下载地址、大小、SHA-256 与更新说明 |
 | `SHA256SUMS.txt` | APK 和版本清单的文件校验值 |
 
-本次不发布主题卡。GitHub 自动提供的 Source code 压缩包只包含仓库资料，不是应用源码或安装包。
+本次不发布主题卡。当前版本的 Source code 压缩包包含对应源码，不能直接安装；手机应下载 APK。历史 v0.5.5 标签创建时仅有文档，详情见项目状态。
 
 ## 校验与签名
 

@@ -13,7 +13,7 @@ import android.provider.Settings as AndroidSettings
 import java.util.UUID
 
 class Platform(private val context: Context, private val store: StateStore) {
-    companion object { const val TIMER_CHANNEL = "timer-completion-v2" }
+    companion object { const val TIMER_CHANNEL = TimerChannelPolicy.CURRENT }
     private val notifications = context.getSystemService(NotificationManager::class.java)
     private val alarms = context.getSystemService(AlarmManager::class.java)
     private val monitorIntent = Intent(context,UsageMonitorService::class.java)
@@ -23,14 +23,28 @@ class Platform(private val context: Context, private val store: StateStore) {
         (Build.VERSION.SDK_INT < 33 || context.checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED)
     fun hasExact() = Build.VERSION.SDK_INT < 31 || alarms.canScheduleExactAlarms()
     fun timerChannelId(): String {
-        // Preserve an explicit user choice on the old channel, including a blocked channel.
-        val legacy=notifications.getNotificationChannel("timer")
-        val customized=legacy!=null&&(legacy.importance==NotificationManager.IMPORTANCE_NONE||legacy.hasUserSetImportance()||
-            legacy.sound!=null||legacy.shouldVibrate()||(Build.VERSION.SDK_INT>=30&&legacy.hasUserSetSound()))
-        return if(customized) "timer" else TIMER_CHANNEL
+        fun snapshot(id:String)=notifications.getNotificationChannel(id)?.let {
+            TimerChannelSnapshot(it.importance,it.sound?.toString(),it.shouldVibrate(),it.vibrationPattern?.toList(),
+                it.hasUserSetImportance(),Build.VERSION.SDK_INT>=30,Build.VERSION.SDK_INT>=30&&it.hasUserSetSound())
+        }
+        // A migrated channel is authoritative thereafter, including any later user changes.
+        if(notifications.getNotificationChannel(TIMER_CHANNEL)!=null)return TIMER_CHANNEL
+        return TimerChannelPolicy.select(snapshot(TimerChannelPolicy.LEGACY),snapshot(TimerChannelPolicy.SILENT))
     }
-    fun hasTimerNotifications() = hasNotifications() &&
-        notifications.getNotificationChannel(timerChannelId())?.importance != NotificationManager.IMPORTANCE_NONE
+    fun hasTimerNotifications():Boolean {
+        val channel=notifications.getNotificationChannel(timerChannelId())?:return false
+        val groupEnabled=channel.group?.let { notifications.getNotificationChannelGroup(it)?.isBlocked!=true }?:true
+        return hasNotifications() && channel.importance!=NotificationManager.IMPORTANCE_NONE && groupEnabled
+    }
+    fun timerAlertStatus():TimerAlertStatus {
+        val channel=notifications.getNotificationChannel(timerChannelId())
+        val audible=channel!=null&&channel.importance>=NotificationManager.IMPORTANCE_DEFAULT
+        val audio=context.getSystemService(android.media.AudioManager::class.java)
+        return TimerAlertStatus(hasTimerNotifications(),audible&&channel?.sound!=null,
+            audible&&channel?.shouldVibrate()==true,
+            notifications.currentInterruptionFilter!=NotificationManager.INTERRUPTION_FILTER_ALL,
+            audio.ringerMode!=android.media.AudioManager.RINGER_MODE_NORMAL||audio.getStreamVolume(android.media.AudioManager.STREAM_NOTIFICATION)==0)
+    }
     fun createChannels() {
         notifications.createNotificationChannel(NotificationChannel("monitor", tr(R.string.ui_5cb8c40e95fc, "应用目标监测"), NotificationManager.IMPORTANCE_LOW).apply { setSound(null,null); setShowBadge(false) })
         listOf("goal" to tr(R.string.ui_916762880a4b, "目标提醒")).forEach { (id,name) ->
@@ -38,11 +52,13 @@ class Platform(private val context: Context, private val store: StateStore) {
                 setSound(null,null); enableVibration(false); setShowBadge(false); lockscreenVisibility = Notification.VISIBILITY_PRIVATE
             })
         }
-        // Android locks channel behavior after creation. The old release created a silent,
-        // non-vibrating channel; a dedicated completion channel fixes its default behavior.
-        notifications.createNotificationChannel(NotificationChannel(TIMER_CHANNEL,tr(R.string.ui_7313ff343cec, "专注计时到点"),NotificationManager.IMPORTANCE_HIGH).apply {
+        // Preserve user-customized channels; upgrade only our old silent defaults.
+        if(timerChannelId()==TIMER_CHANNEL)notifications.createNotificationChannel(NotificationChannel(TIMER_CHANNEL,tr(R.string.ui_7313ff343cec, "专注计时到点"),NotificationManager.IMPORTANCE_HIGH).apply {
             description=tr(R.string.ui_3c9f155f5d3b, "专注与休息结束时提示；声音和振动可在系统中调整")
-            setSound(null,null);enableVibration(true);vibrationPattern=longArrayOf(0,180,100,180)
+            setSound(AndroidSettings.System.DEFAULT_NOTIFICATION_URI,android.media.AudioAttributes.Builder()
+                .setUsage(android.media.AudioAttributes.USAGE_NOTIFICATION_EVENT)
+                .setContentType(android.media.AudioAttributes.CONTENT_TYPE_SONIFICATION).build())
+            enableVibration(true);vibrationPattern=TimerChannelPolicy.pattern.toLongArray()
             setShowBadge(false);lockscreenVisibility=Notification.VISIBILITY_PRIVATE
         })
     }
@@ -73,6 +89,14 @@ class Platform(private val context: Context, private val store: StateStore) {
             .vibrate(android.os.VibrationEffect.createOneShot(100,android.os.VibrationEffect.DEFAULT_AMPLITUDE))
     }
     fun cancelGoal(id: String) { notifications.cancel(id.hashCode()) }
+    /** Uses the real completion channel without starting a timer or changing focus records. */
+    fun testTimerAlert() {
+        if(!hasTimerNotifications())return
+        notifications.cancel(103)
+        notifications.notify(103,base(timerChannelId(),tr(R.string.timer_test_title,"计时提醒测试"),
+            tr(R.string.timer_test_body,"这与计时结束使用相同的声音和振动设置。"))
+            .setCategory(Notification.CATEGORY_REMINDER).setAutoCancel(true).setTimeoutAfter(8000).build())
+    }
     @Synchronized fun settleTimer() {
         store.update { FocusLedger.advance(it,SystemClock.elapsedRealtime(),System.currentTimeMillis(),bootId(context),currentZone()) }
         val t = store.state.value.timer

@@ -11,8 +11,8 @@ android {
         applicationId = "dev.zen.launcher"
         minSdk = 29
         targetSdk = 35
-        versionCode = 31
-        versionName = "0.5.6"
+        versionCode = 32
+        versionName = "0.5.7"
         val updateUrl = providers.gradleProperty("zenUpdateManifestUrl").orElse("").get()
         buildConfigField("String", "UPDATE_MANIFEST_URL", "\"" + updateUrl.replace("\\", "\\\\").replace("\"", "\\\"") + "\"")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

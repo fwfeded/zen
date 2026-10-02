@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="timer_alert_summary">Completion alert · %1$s</string>
+    <string name="timer_alert_blocked">Notifications off</string>
+    <string name="timer_alert_dnd">Do Not Disturb may silence alerts</string>
+    <string name="timer_alert_muted">Silent mode or notification volume is zero</string>
+    <string name="timer_alert_both">Sound and vibration</string>
+    <string name="timer_alert_sound">Sound only</string>
+    <string name="timer_alert_vibrate">Vibration only</string>
+    <string name="timer_alert_silent">No sound or vibration</string>
+    <string name="timer_alert_settings">Sound and vibration settings</string>
+    <string name="timer_test_button">Test alert</string>
+    <string name="timer_test_title">Timer alert test</string>
+    <string name="timer_test_body">This uses the same sound and vibration settings as timer completion.</string>
+</resources>

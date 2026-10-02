@@ -85,13 +85,8 @@
     <string name="ui_793dc584cf9d">"保存时长"</string>
     <string name="ui_e597fd46fa53">"结束本轮"</string>
     <string name="ui_587904ac609d">"收起提醒设置"</string>
-    <string name="ui_d7f1addc5aeb">"到点提醒 · 已开启"</string>
-    <string name="ui_310badeb26a4">"设置到点提醒"</string>
     <string name="ui_3834f9cf9f9b">"开启通知"</string>
     <string name="ui_3aab3a9ae985">"后台到点提醒需要通知权限"</string>
-    <string name="ui_104bb9fc3d87">"到点提示与振动"</string>
-    <string name="ui_43acf8e4fe9c">"跟随系统设置"</string>
-    <string name="ui_0d84a50bee26">"点此开启专注计时通知"</string>
     <string name="ui_9727ec6c6503">"准点提醒"</string>
     <string name="ui_da5edc06aafe">"未允许时后台提醒可能延迟"</string>
     <string name="ui_2db094c1df82">"专注时简化桌面"</string>

@@ -6,7 +6,7 @@
 
 ## 1. 下载并打开
 
-系统需要 Android 10 或以上。在 [官方 Releases](https://github.com/fwfeded/zen/releases/latest) 下载当前版本的 **APK**，0.5.5 对应 `zen-31.apk`，约 22.1 MiB。不要下载 GitHub 自动生成的 Source code 压缩包来安装。
+系统需要 Android 10 或以上。在 [官方 Releases](https://github.com/fwfeded/zen/releases/latest) 下载当前版本的 **APK**，0.5.7 对应 `zen-32.apk`，约 22.2 MiB。不要下载 GitHub 自动生成的 Source code 压缩包来安装。
 
 打开文件后按 Android 提示安装；系统可能要求为浏览器或文件管理器允许此安装来源。已经装过禅的用户，直接用同签名版本覆盖安装即可，不要先卸载。
 

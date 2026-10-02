@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="timer_alert_summary">到點提醒 · %1$s</string>
+    <string name="timer_alert_blocked">通知未開啟</string>
+    <string name="timer_alert_dnd">勿擾模式可能抑制提醒</string>
+    <string name="timer_alert_muted">靜音或通知音量為零</string>
+    <string name="timer_alert_both">聲音與振動</string>
+    <string name="timer_alert_sound">僅聲音</string>
+    <string name="timer_alert_vibrate">僅振動</string>
+    <string name="timer_alert_silent">無聲音和振動</string>
+    <string name="timer_alert_settings">聲音與振動設定</string>
+    <string name="timer_test_button">測試提醒</string>
+    <string name="timer_test_title">計時提醒測試</string>
+    <string name="timer_test_body">這與計時結束使用相同的聲音和振動設定。</string>
+</resources>

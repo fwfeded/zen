@@ -127,11 +127,13 @@ private val RemovedTodoSaver=Saver<Todo?,String>(
         }
         if(s.timer.status!="idle")TextButton(onClick={a.perform({a.zen().platform.endTimer()})}){Text(tr(R.string.ui_e597fd46fa53, "结束本轮"))}
         TextButton(onClick={alertsExpanded=!alertsExpanded},modifier=Modifier.testTag("timer-alert-options")) {
-            Text(if(alertsExpanded)tr(R.string.ui_587904ac609d, "收起提醒设置") else if(access.timerNotifications&&access.exact)tr(R.string.ui_d7f1addc5aeb, "到点提醒 · 已开启") else tr(R.string.ui_310badeb26a4, "设置到点提醒"),fontSize=12.sp)
+            Text(if(alertsExpanded)tr(R.string.ui_587904ac609d, "收起提醒设置") else tr(R.string.timer_alert_summary,"到点提醒 · %1\$s",access.alerts.label),fontSize=12.sp)
         }
         if(alertsExpanded) {
             if(!access.notifications)PanelLink(tr(R.string.ui_3834f9cf9f9b, "开启通知"),tr(R.string.ui_3aab3a9ae985, "后台到点提醒需要通知权限")){a.requestNotification()}
-            else PanelLink(tr(R.string.ui_104bb9fc3d87, "到点提示与振动"),if(access.timerNotifications)tr(R.string.ui_43acf8e4fe9c, "跟随系统设置")else tr(R.string.ui_0d84a50bee26, "点此开启专注计时通知")){a.timerNotificationSettings()}
+            else PanelLink(tr(R.string.timer_alert_settings,"声音与振动设置"),access.alerts.label){a.timerNotificationSettings()}
+            TextButton(onClick={a.perform({a.zen().platform.testTimerAlert()})},enabled=access.timerNotifications,
+                modifier=Modifier.testTag("test-timer-alert")){Text(tr(R.string.timer_test_button,"测试提醒"))}
             if(!access.exact)PanelLink(tr(R.string.ui_9727ec6c6503, "准点提醒"),tr(R.string.ui_da5edc06aafe, "未允许时后台提醒可能延迟")){a.exactPermission()}
         }
         ToggleRow(tr(R.string.ui_2db094c1df82, "专注时简化桌面"),s.settings.quietFocus){v->a.editState{it.copy(settings=it.settings.copy(quietFocus=v))}}

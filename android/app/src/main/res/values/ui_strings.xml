@@ -85,13 +85,8 @@
     <string name="ui_793dc584cf9d">"Save durations"</string>
     <string name="ui_e597fd46fa53">"End round"</string>
     <string name="ui_587904ac609d">"Hide alert settings"</string>
-    <string name="ui_d7f1addc5aeb">"End alert · On"</string>
-    <string name="ui_310badeb26a4">"Set end alert"</string>
     <string name="ui_3834f9cf9f9b">"Enable notifications"</string>
     <string name="ui_3aab3a9ae985">"Background alerts need notification permission"</string>
-    <string name="ui_104bb9fc3d87">"Sound and vibration"</string>
-    <string name="ui_43acf8e4fe9c">"Use system settings"</string>
-    <string name="ui_0d84a50bee26">"Tap to enable timer notifications"</string>
     <string name="ui_9727ec6c6503">"Exact alarms"</string>
     <string name="ui_da5edc06aafe">"Background alerts may be delayed without permission"</string>
     <string name="ui_2db094c1df82">"Simplify home during focus"</string>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="timer_prepare_title">Set up timer alerts</string>
+    <string name="timer_prepare_notification">Notifications are off. Timer alerts cannot appear while using another app.</string>
+    <string name="timer_prepare_exact">Exact alarms are not allowed. Alerts may be delayed in other apps or with the screen off.</string>
+    <string name="timer_foreground_only">Foreground only</string>
+    <string name="timer_allow_delay">Allow delay and start</string>
+    <string name="timer_prepare_cancel">Cancel</string>
+    <string name="timer_diagnostics">Alert diagnostics</string>
+    <string name="timer_copy_diagnostics">Copy diagnostics</string>
+</resources>

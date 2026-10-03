@@ -132,7 +132,7 @@ val ZenSerif=FontFamily(Font(R.font.zen_serif))
                         if(stored.timer.mode=="focus"&&stored.timer.todoId!=null&&FocusFlow.rememberedTask(stored)?.id==stored.timer.todoId)
                             TextButton(onClick={a.perform({a.zen().platform.acknowledgeTimer(completedGeneration)},{a.panel="focus-note"})}){Text(tr(R.string.ui_dceac6bbdc4f, "记录下一步（可选）"))}
                     }},
-                    confirmButton={TextButton(onClick={a.perform({a.zen().platform.startAfterCompletion(completedGeneration)})}){Text(if(stored.timer.mode=="focus")tr(R.string.ui_7d4beb773506, "开始休息")else tr(R.string.ui_033df8fb6e36, "开始专注"))}},
+                    confirmButton={TextButton(onClick={a.withTimerReadiness{a.perform({a.zen().platform.startAfterCompletion(completedGeneration)})}}){Text(if(stored.timer.mode=="focus")tr(R.string.ui_7d4beb773506, "开始休息")else tr(R.string.ui_033df8fb6e36, "开始专注"))}},
                     dismissButton={TextButton(onClick={a.perform({a.zen().platform.acknowledgeTimer(completedGeneration)})}){Text(tr(R.string.ui_56f252b08c5a, "关闭提醒"))}})
             }
             val error=a.message.ifEmpty{storeError}
@@ -161,9 +161,8 @@ val ZenSerif=FontFamily(Font(R.font.zen_serif))
     val pool=rows.map{it.text}
     val copy=pool.getOrNull(ThemeQuotes.index(s.copyIndices[key]?:0,pool.size)).orEmpty()
     val density=LocalDensity.current
-    val access=rememberTimerAccess(a)
     var timerBusy by remember { mutableStateOf(false) }
-    fun toggle(){if(timerBusy)return;if((!access.timerNotifications||!access.exact)&&t.status in listOf("idle","complete"))a.panel="timer" else {timerBusy=true;a.perform({runCatching{a.zen().platform.toggleTimer()}.onFailure{a.zen().store.error.value=tr(R.string.ui_6b614b4ff406, "计时操作未完成，请重试。")}},{timerBusy=false})}}
+    fun toggle(){if(timerBusy)return;val start={timerBusy=true;a.perform({runCatching{a.zen().platform.toggleTimer()}.onFailure{a.zen().store.error.value=tr(R.string.ui_6b614b4ff406, "计时操作未完成，请重试。")}},{timerBusy=false})};if(t.status=="running")start()else a.withTimerReadiness(start)}
     BoxWithConstraints(Modifier.fillMaxSize().windowInsetsPadding(WindowInsets.safeDrawing)) {
         // Reserve enough space for the entire focus block before distributing the two weights.
         // Short screens scroll; buttons must never be measured into a clipped sliver.

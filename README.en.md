@@ -79,7 +79,7 @@ The interface supports Simplified Chinese, Traditional Chinese and English, with
 
 ## Install, try and return
 
-1. Download `zen-32.apk` for version 0.5.7, about 22.2 MiB, from [Releases](https://github.com/fwfeded/zen/releases/latest).
+1. Download `zen-33.apk` for version 0.5.8-diagnostic, about 22.2 MiB, from [Releases](https://github.com/fwfeded/zen/releases/latest).
 2. Follow Android's installation prompts. Open Zen as a regular app first; becoming the default launcher is optional.
 3. If desired, use Zen's home/exit settings to enable it as the default home app. To return, use the action that names your previous launcher on the same page.
 
@@ -101,7 +101,7 @@ Downloads are checked for package identity, increasing version, size, SHA-256 an
 
 Tasks, goals, focus records, quotations and preferences stay on the device. There is no account, cloud sync, advertising SDK or analytics SDK. Weather requests send location coordinates to Open-Meteo; update requests contact GitHub. Android's geocoder may contact its configured provider to resolve city names.
 
-Version 0.5.7 passed 165 unit tests and 10 device tests. The final Release APK passed an in-place upgrade from 0.5.6, retaining local data and language, and a real foreground timer completion check on Android 15. Audible and vibration behavior on Redmi hardware still requires verification. [Verification record](docs/RELEASE_0.5.7.md).
+The current update is **0.5.8-diagnostic**, with permission checks before starting and local alert diagnostics. 165 unit tests, 14 device tests and a process-death recovery check passed. **Missing sound/vibration on Redmi and OnePlus remains under investigation; this release does not claim to fix it.** [Verification and test steps](docs/RELEASE_0.5.8-diagnostic.md).
 
 Weather can differ from the manufacturer's app. Split-screen usage attribution is not guaranteed. Reminder delivery depends on Android permissions and system settings. Battery-saving options reduce some of Zen's work, but no device-wide battery-life improvement has been demonstrated. Uninstalling or clearing data removes local records; full export/restore is not available yet. GitHub downloads depend on network availability.
 

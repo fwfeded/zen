@@ -113,8 +113,11 @@ private val RemovedTodoSaver=Saver<Todo?,String>(
             finishInput()
             val fresh=s.timer.status in listOf("idle","complete")
             if(!fresh||valid()){
-                busy=true;var ok=true
-                a.perform({if(fresh)ok=a.zen().store.update{DailyTools.applyRhythmSeconds(it,f,r)};if(ok)a.zen().platform.toggleTimer()},{busy=false;if(ok)a.panel=""})
+                val start={
+                    busy=true;var ok=true
+                    a.perform({if(fresh)ok=a.zen().store.update{DailyTools.applyRhythmSeconds(it,f,r)};if(ok)a.zen().platform.toggleTimer()},{busy=false;if(ok)a.panel=""})
+                }
+                if(s.timer.status=="running")start()else a.withTimerReadiness(start)
             }
         },enabled=!busy&&editing==null,modifier=Modifier.fillMaxWidth().testTag("timer-primary")){
             Text(when(s.timer.status){"running"->tr(R.string.ui_971f2f448772, "暂停计时");"paused"->tr(R.string.ui_c39c7232d41f, "继续计时");"complete"->if(s.timer.mode=="focus")tr(R.string.ui_7d4beb773506, "开始休息") else tr(R.string.ui_033df8fb6e36, "开始专注");else->tr(R.string.ui_033df8fb6e36, "开始专注")})
@@ -134,6 +137,7 @@ private val RemovedTodoSaver=Saver<Todo?,String>(
             else PanelLink(tr(R.string.timer_alert_settings,"声音与振动设置"),access.alerts.label){a.timerNotificationSettings()}
             TextButton(onClick={a.perform({a.zen().platform.testTimerAlert()})},enabled=access.timerNotifications,
                 modifier=Modifier.testTag("test-timer-alert")){Text(tr(R.string.timer_test_button,"测试提醒"))}
+            TextButton(onClick={a.showTimerDiagnostics()},modifier=Modifier.testTag("timer-diagnostics")){Text(tr(R.string.timer_diagnostics,"提醒诊断"))}
             if(!access.exact)PanelLink(tr(R.string.ui_9727ec6c6503, "准点提醒"),tr(R.string.ui_da5edc06aafe, "未允许时后台提醒可能延迟")){a.exactPermission()}
         }
         ToggleRow(tr(R.string.ui_2db094c1df82, "专注时简化桌面"),s.settings.quietFocus){v->a.editState{it.copy(settings=it.settings.copy(quietFocus=v))}}

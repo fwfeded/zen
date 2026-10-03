@@ -91,7 +91,8 @@ class Platform(private val context: Context, private val store: StateStore) {
     fun cancelGoal(id: String) { notifications.cancel(id.hashCode()) }
     /** Uses the real completion channel without starting a timer or changing focus records. */
     fun testTimerAlert() {
-        if(!hasTimerNotifications())return
+        if(!hasTimerNotifications()){TimerDiagnostics.record(context,"test-blocked","notifications disabled");return}
+        TimerDiagnostics.record(context,"test-request",timerChannelId())
         notifications.cancel(103)
         notifications.notify(103,base(timerChannelId(),tr(R.string.timer_test_title,"计时提醒测试"),
             tr(R.string.timer_test_body,"这与计时结束使用相同的声音和振动设置。"))
@@ -100,9 +101,12 @@ class Platform(private val context: Context, private val store: StateStore) {
     @Synchronized fun settleTimer() {
         store.update { FocusLedger.advance(it,SystemClock.elapsedRealtime(),System.currentTimeMillis(),bootId(context),currentZone()) }
         val t = store.state.value.timer
+        if(t.status=="complete"&&!t.completionNotified&&!t.completionAcknowledged&&!hasTimerNotifications())
+            TimerDiagnostics.record(context,"completion-blocked","notifications disabled")
         if (t.status == "complete" && !t.completionNotified && !t.completionAcknowledged && hasTimerNotifications()) {
             notifications.notify(102,base(timerChannelId(),if(t.mode=="focus") tr(R.string.ui_66ee968257ec, "专注完成") else tr(R.string.ui_91dcd1703b98, "休息结束"),if(t.mode=="focus") tr(R.string.ui_a6043c8cc374, "这一段已记入专注统计，准备好后开始休息。") else tr(R.string.ui_cb4e5e1a7912, "准备好后，再开始专注。"))
                 .setCategory(Notification.CATEGORY_REMINDER).setOnlyAlertOnce(true).setAutoCancel(true).build())
+            TimerDiagnostics.record(context,"completion-posted",timerChannelId())
             store.update { if(it.timer.generation==t.generation) it.copy(timer=it.timer.copy(completionNotified=true)) else it }
         }
     }
@@ -141,9 +145,11 @@ class Platform(private val context: Context, private val store: StateStore) {
         if(t.status!="running") return
         val pending=PendingIntent.getBroadcast(context,102,Intent(context,ReminderReceiver::class.java).setAction("timer").putExtra("id",t.generation),PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
         try {
+            TimerDiagnostics.record(context,"schedule", "exact=${hasExact()}, remainingMs=${t.deadlineMs-SystemClock.elapsedRealtime()}")
             if(hasExact()) alarms.setExactAndAllowWhileIdle(AlarmManager.ELAPSED_REALTIME_WAKEUP,t.deadlineMs,pending)
             else alarms.setAndAllowWhileIdle(AlarmManager.ELAPSED_REALTIME_WAKEUP,t.deadlineMs,pending)
         } catch (_: SecurityException) {
+            TimerDiagnostics.record(context,"schedule-fallback","exact alarm denied")
             alarms.setAndAllowWhileIdle(AlarmManager.ELAPSED_REALTIME_WAKEUP,t.deadlineMs,pending)
         }
     }
@@ -181,6 +187,7 @@ class Platform(private val context: Context, private val store: StateStore) {
 class ReminderReceiver: BroadcastReceiver() {
     override fun onReceive(context: Context,intent: Intent) {
         val app=context.zen(); val id=intent.getStringExtra("id") ?: ""
+        if(intent.action=="timer")TimerDiagnostics.record(context,"alarm-received","generationMatches=${app.store.state.value.timer.generation==id}")
         when(intent.action) {
             "timer" -> if(app.store.state.value.timer.generation==id && app.store.state.value.timer.status=="running") app.platform.settleTimer()
             "snooze" -> app.platform.snooze(id)

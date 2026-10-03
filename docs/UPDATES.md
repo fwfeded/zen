@@ -18,7 +18,7 @@ https://github.com/fwfeded/zen/releases/latest/download/latest.json
 
 | 文件 | 用途 |
 | --- | --- |
-| `zen-32.apk` | 0.5.7（versionCode 32）的安装包 |
+| `zen-33.apk` | 0.5.8-diagnostic（versionCode 33）的安装包 |
 | `latest.json` | 应用读取的版本、下载地址、大小、SHA-256 与更新说明 |
 | `SHA256SUMS.txt` | APK 和版本清单的文件校验值 |
 

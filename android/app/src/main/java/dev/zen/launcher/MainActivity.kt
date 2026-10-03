@@ -35,6 +35,8 @@ class MainActivity:ComponentActivity() {
     var permissionsVersion by mutableIntStateOf(0)
     private val notificationPromptPreferences by lazy { getSharedPreferences("permission-prompts",MODE_PRIVATE) }
     private var notificationSettingsDialog:android.app.AlertDialog?=null
+    private var timerReadinessDialog:android.app.AlertDialog?=null
+    private var checkingTimerReadiness=false
     private var pendingTodoOverlay=false
     private val overlayPermission=registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
         permissionsVersion++
@@ -141,7 +143,31 @@ class MainActivity:ComponentActivity() {
         if(action==TodoFocusAction.VIEW)panel="timer"
         else focusTodo(id)
     }
-    fun focusTodo(id:String,durations:Pair<Int,Int>?=null){
+    /** Starting is an explicit choice when background delivery cannot be guaranteed. */
+    fun withTimerReadiness(start:()->Unit){
+        if(checkingTimerReadiness||timerReadinessDialog?.isShowing==true)return
+        checkingTimerReadiness=true
+        lifecycleScope.launch {
+            val p=zen().platform
+            val access=withContext(Dispatchers.IO){Triple(p.hasNotifications(),p.hasTimerNotifications(),p.hasExact())}
+            checkingTimerReadiness=false
+            if(isFinishing||isDestroyed)return@launch
+            if(access.second&&access.third){start();return@launch}
+            val notificationMissing=!access.second
+            timerReadinessDialog=android.app.AlertDialog.Builder(this@MainActivity)
+                .setTitle(tr(R.string.timer_prepare_title,"设置到点提醒"))
+                .setMessage(if(notificationMissing)tr(R.string.timer_prepare_notification,"通知未开启，切到其他应用后无法显示到点提醒。")
+                    else tr(R.string.timer_prepare_exact,"未允许精确计时，切到其他应用或锁屏后，提醒可能延迟。"))
+                .setPositiveButton(if(notificationMissing)tr(R.string.ui_3834f9cf9f9b,"开启通知")else tr(R.string.ui_9727ec6c6503,"准点提醒")){_,_->
+                    if(!access.first)requestNotification() else if(notificationMissing)timerNotificationSettings() else exactPermission()
+                }
+                .setNeutralButton(if(notificationMissing)tr(R.string.timer_foreground_only,"仅前台计时")else tr(R.string.timer_allow_delay,"允许延迟，开始计时")){_,_->start()}
+                .setNegativeButton(tr(R.string.timer_prepare_cancel,"取消"),null)
+                .setOnDismissListener{timerReadinessDialog=null}.show()
+        }
+    }
+    fun focusTodo(id:String,durations:Pair<Int,Int>?=null)=withTimerReadiness{startTodoReady(id,durations)}
+    private fun startTodoReady(id:String,durations:Pair<Int,Int>?=null){
         var started=false
         perform({started=zen().platform.startTodoFocus(id,durations)},{
             if(started){panel="";if(!zen().platform.hasTimerNotifications())message=tr(R.string.ui_415146ebe85a, "已开始专注；通知未开启，仅能在前台提示。")}
@@ -177,7 +203,7 @@ class MainActivity:ComponentActivity() {
     }
     override fun onPause(){homeAppsExpanded=false;weatherLocation.pause();weather.pause();appUpdates.pause();super.onPause()}
     override fun onNewIntent(intent:Intent) { super.onNewIntent(intent); setIntent(intent); handleIntent(intent) }
-    override fun onDestroy() { notificationSettingsDialog?.dismiss();getSystemService(android.content.pm.LauncherApps::class.java).unregisterCallback(appChanges);weatherLocation.close();weather.close();appUpdates.close();super.onDestroy() }
+    override fun onDestroy() { timerReadinessDialog?.dismiss();notificationSettingsDialog?.dismiss();getSystemService(android.content.pm.LauncherApps::class.java).unregisterCallback(appChanges);weatherLocation.close();weather.close();appUpdates.close();super.onDestroy() }
     private fun handleIntent(intent:Intent) { homeAppsExpanded=false;panel=""; selected=null; intent.getStringExtra("goal")?.let { goalId=it; panel="goal-detail" };if(intent.getBooleanExtra("open-todos",false))panel="todo" }
     fun requestNotification() {
         val granted=Build.VERSION.SDK_INT<33||checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS)==android.content.pm.PackageManager.PERMISSION_GRANTED
@@ -237,6 +263,18 @@ class MainActivity:ComponentActivity() {
             else if(roles.isRoleAvailable(RoleManager.ROLE_HOME))roleRequest.launch(roles.createRequestRoleIntent(RoleManager.ROLE_HOME))
             else external(Intent(AndroidSettings.ACTION_HOME_SETTINGS))
         }.onFailure { external(Intent(AndroidSettings.ACTION_HOME_SETTINGS)) }
+    }
+    fun showTimerDiagnostics(){
+        lifecycleScope.launch {
+            val report=withContext(Dispatchers.IO){TimerDiagnostics.report(this@MainActivity)}
+            if(isFinishing||isDestroyed)return@launch
+            android.app.AlertDialog.Builder(this@MainActivity)
+                .setTitle(tr(R.string.timer_diagnostics,"提醒诊断"))
+                .setMessage(report)
+                .setPositiveButton(tr(R.string.timer_copy_diagnostics,"复制诊断信息")){_,_->
+                    getSystemService(android.content.ClipboardManager::class.java).setPrimaryClip(android.content.ClipData.newPlainText("Zen timer diagnostics",report))
+                }.setNegativeButton(tr(R.string.timer_prepare_cancel,"取消"),null).show()
+        }
     }
     fun timerNotificationSettings() = external(Intent(AndroidSettings.ACTION_CHANNEL_NOTIFICATION_SETTINGS)
         .putExtra(AndroidSettings.EXTRA_APP_PACKAGE,packageName).putExtra(AndroidSettings.EXTRA_CHANNEL_ID,zen().platform.timerChannelId()))

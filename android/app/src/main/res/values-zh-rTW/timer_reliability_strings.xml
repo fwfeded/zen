@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="timer_prepare_title">設定到點提醒</string>
+    <string name="timer_prepare_notification">通知未開啟，切到其他應用程式後無法顯示到點提醒。</string>
+    <string name="timer_prepare_exact">未允許精確計時，切到其他應用程式或鎖定螢幕後，提醒可能延遲。</string>
+    <string name="timer_foreground_only">僅前景計時</string>
+    <string name="timer_allow_delay">允許延遲，開始計時</string>
+    <string name="timer_prepare_cancel">取消</string>
+    <string name="timer_diagnostics">提醒診斷</string>
+    <string name="timer_copy_diagnostics">複製診斷資訊</string>
+</resources>

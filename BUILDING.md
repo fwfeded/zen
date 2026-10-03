@@ -2,7 +2,7 @@
 
 [项目首页](README.md) · [代码结构](docs/ARCHITECTURE.md) · [许可与来源](THIRD_PARTY_NOTICES.md)
 
-此指南适用于当前 0.5.7 源码。不要使用历史 `v0.5.5` 标签的自动源码压缩包，它是在源码公开前生成的文档快照；使用当前仓库或 Release 说明中标出的完整源码提交。
+此指南适用于当前 0.5.8-diagnostic 源码。不要使用历史 `v0.5.5` 标签的自动源码压缩包，它是在源码公开前生成的文档快照；使用当前仓库或 Release 说明中标出的完整源码提交。
 
 ## 环境
 
@@ -86,7 +86,7 @@ adb shell am start -n dev.zen.launcher/.MainActivity
 
 本次已在 Windows 的干净源码目录构建 Debug、Release 并运行 Lint，当前构建任务成功。使用了已安装 SDK 与依赖缓存，未宣称验证完全空缓存的首次联网构建，也未验证 Linux／macOS 实机。
 
-Lint 为 0 错误、69 条警告，详见 [首次源码验证](docs/SOURCE_VERIFICATION.md)与 [0.5.7 验证](docs/RELEASE_0.5.7.md)。按当前发布范围，本地单元测试、仪器测试及含主题卡的测试夹具没有上传；运行空测试任务不能视为回归测试通过。
+Lint 为 0 错误、69 条警告，详见 [首次源码验证](docs/SOURCE_VERIFICATION.md)与 [诊断版验证](docs/RELEASE_0.5.8-diagnostic.md)。按当前发布范围，本地单元测试、仪器测试及含主题卡的测试夹具没有上传；运行空测试任务不能视为回归测试通过。
 
 ## 常见构建问题
 
